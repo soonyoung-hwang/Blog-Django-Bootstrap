@@ -64,6 +64,10 @@
                     <section class="mb-5">
                         <p>{{post.content}}</p>
                     </section>
+                    {% if post.file_upload %}
+                    <a href="{{post.file_upload.url}}" class="btn btn-outline-dark" role="button" download>Download</a>
+                    <p>&nbsp;</p>
+                    {% endif %}
                 </article>
                 <!-- Comments section-->
                 <section class="mb-5">
