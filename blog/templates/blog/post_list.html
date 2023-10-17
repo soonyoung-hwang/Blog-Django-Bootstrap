@@ -93,7 +93,9 @@
                 {% for p in post_list %}
                 <!-- Featured blog post-->
                 <div class="card mb-4">
+                    {% if p.head_image %}
                     <a href="#!"><img class="card-img-top" src="{{p.head_image.url}}" alt="..." /></a>
+                    {% endif %}
                     <div class="card-body">
                         <div class="small text-muted">Posted on {{p.created_at}}</div>
                         <h2 class="card-title">{{p.title}}</h2>
