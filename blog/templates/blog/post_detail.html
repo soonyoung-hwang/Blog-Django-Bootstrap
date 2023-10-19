@@ -1,101 +1,108 @@
 {% extends 'blog/base.html' %}
 
+{% block head_title %}
+{{post.title}} - Blog
+{% endblock %}
+
 {% block main_area %}
 <!-- Page content-->
 <div class="container mt-5">
     <div class="row">
-
-        <!-- Post content-->
-        <article>
-            <!-- Post header-->
-            <header class="mb-4">
-                <!-- Post title-->
-                <h1 class="fw-bolder mb-1">{{post.title}}</h1>
-                <!-- Post hook text -->
-                {% if post.hook_text %}
-                <h5 class="text-muted">{{post.hook_text}}</h5>
-                {% endif %}
-                <!-- Post meta content-->
-                <div class="text-muted fst-italic mb-2">Posted on {{post.created_at}} by ________</div>
-            </header>
-            <!-- Preview image figure-->
-            <figure class="mb-4">
-                {% if post.head_image %}
-                <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="...">
-                {% else %}
-                <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/800/500" alt="random image">
-                {% endif %}
-            </figure>
+        <div id="post-area">
             <!-- Post content-->
-            <section class="mb-5">
-                <p>{{post.content}}</p>
-            </section>
-            {% if post.file_upload %}
-            <a href="{{post.file_upload.url}}" class="btn btn-outline-dark" role="button" download>Download:
-                {% if post.get_file_ext == 'csv' %}
-                <i class="fa-solid fa-file-csv"></i>
-                {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
-                <i class="fa-regular fa-file-excel"></i>
-                {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
-                <i class="fa-regular fa-file-word"></i>
-                {% else %}
-                <i class="fa-regular fa-file"></i>
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-1">{{post.title}}</h1>
+                    <!-- Post hook text -->
+                    {% if post.hook_text %}
+                    <h5 class="text-muted">{{post.hook_text}}</h5>
+                    {% endif %}
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-2">Posted on {{post.created_at}} by ________</div>
+                </header>
+                <!-- Preview image figure-->
+                <figure class="mb-4">
+                    {% if post.head_image %}
+                    <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="...">
+                    {% else %}
+                    <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/800/500"
+                        alt="random image">
+                    {% endif %}
+                </figure>
+                <!-- Post content-->
+                <section class="mb-5">
+                    <p>{{post.content}}</p>
+                </section>
+                {% if post.file_upload %}
+                <a href="{{post.file_upload.url}}" class="btn btn-outline-dark" role="button" download>Download:
+                    {% if post.get_file_ext == 'csv' %}
+                    <i class="fa-solid fa-file-csv"></i>
+                    {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+                    <i class="fa-regular fa-file-excel"></i>
+                    {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+                    <i class="fa-regular fa-file-word"></i>
+                    {% else %}
+                    <i class="fa-regular fa-file"></i>
+                    {% endif %}
+                    {{post.get_file_name}}
+                </a>
+                <p>&nbsp;</p>
                 {% endif %}
-                {{post.get_file_name}}
-            </a>
-            <p>&nbsp;</p>
-            {% endif %}
-        </article>
-        <!-- Comments section-->
-        <section class="mb-5">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <!-- Comment form-->
-                    <form class="mb-4"><textarea class="form-control" rows="3"
-                            placeholder="Join the discussion and leave a comment!"></textarea></form>
-                    <!-- Comment with nested comments-->
-                    <div class="d-flex mb-4">
-                        <!-- Parent comment-->
-                        <div class="flex-shrink-0"><img class="rounded-circle"
-                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Soonyoung</div>
-                            Great Job. I think you are doing well :)
-                            <!-- Child comment 1-->
-                            <div class="d-flex mt-4">
-                                <div class="flex-shrink-0"><img class="rounded-circle"
-                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    And under those conditions, you cannot establish a capital-market evaluation
-                                    of that enterprise. You can't get investors.
+            </article>
+        </div>
+        <div id="comment-area">
+            <!-- Comments section-->
+            <section class="mb-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <!-- Comment form-->
+                        <form class="mb-4"><textarea class="form-control" rows="3"
+                                placeholder="Join the discussion and leave a comment!"></textarea></form>
+                        <!-- Comment with nested comments-->
+                        <div class="d-flex mb-4">
+                            <!-- Parent comment-->
+                            <div class="flex-shrink-0"><img class="rounded-circle"
+                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Soonyoung</div>
+                                Great Job. I think you are doing well :)
+                                <!-- Child comment 1-->
+                                <div class="d-flex mt-4">
+                                    <div class="flex-shrink-0"><img class="rounded-circle"
+                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">Commenter Name</div>
+                                        And under those conditions, you cannot establish a capital-market evaluation
+                                        of that enterprise. You can't get investors.
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Child comment 2-->
-                            <div class="d-flex mt-4">
-                                <div class="flex-shrink-0"><img class="rounded-circle"
-                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    When you put money directly to a problem, it makes a good headline.
+                                <!-- Child comment 2-->
+                                <div class="d-flex mt-4">
+                                    <div class="flex-shrink-0"><img class="rounded-circle"
+                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">Commenter Name</div>
+                                        When you put money directly to a problem, it makes a good headline.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Single comment-->
-                    <div class="d-flex">
-                        <div class="flex-shrink-0"><img class="rounded-circle"
-                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Commenter Name</div>
-                            When I look at the universe and all the ways the universe wants to kill us, I find
-                            it hard to reconcile that with statements of beneficence.
+                        <!-- Single comment-->
+                        <div class="d-flex">
+                            <div class="flex-shrink-0"><img class="rounded-circle"
+                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                When I look at the universe and all the ways the universe wants to kill us, I find
+                                it hard to reconcile that with statements of beneficence.
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        </div>
     </div>
 </div>
 
