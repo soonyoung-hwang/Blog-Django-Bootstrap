@@ -14,6 +14,18 @@ class TestView(TestCase):
         self.assertIn("Blog", navbar.text)
         self.assertIn("About Me", navbar.text)
 
+        logo_btn = navbar.find("a", text="Do It Django")
+        self.assertEqual(logo_btn.attrs["href"], "/")
+
+        logo_btn = navbar.find("a", text="Home")
+        self.assertEqual(logo_btn.attrs["href"], "/")
+
+        logo_btn = navbar.find("a", text="Blog")
+        self.assertEqual(logo_btn.attrs["href"], "/blog/")
+
+        logo_btn = navbar.find("a", text="About Me")
+        self.assertEqual(logo_btn.attrs["href"], "/about_me/")
+
     def test_post_list(self):
         # 1.1 포스트 목록 페이지를 가져온다.
         response = self.client.get("/blog/")
