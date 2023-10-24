@@ -24,7 +24,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(
+        Category, null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return f"[{self.pk}] {self.title}"
