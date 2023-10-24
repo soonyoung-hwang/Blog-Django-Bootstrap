@@ -12,7 +12,10 @@
     <a href="#!"><img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/800/500" alt="..." /></a>
     {% endif %}
     <div class="card-body">
-        <div class="small text-muted">Posted on {{p.created_at}}</div>
+        <div class="small text-muted">
+            Posted on {{p.created_at}} by
+            <a href="#">{{p.author | upper}}</a>
+        </div>
         <h2 class="card-title">{{p.title}}</h2>
         {% if p.hook_text %}
         <h5 class="text-muted">{{p.hook_text}}</h5>
