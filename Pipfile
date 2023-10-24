@@ -7,6 +7,9 @@ name = "pypi"
 django = "*"
 pillow = "*"
 beautifulsoup4 = "*"
+install = "*"
+django-extensions = "*"
+ipython = "*"
 
 [dev-packages]
 

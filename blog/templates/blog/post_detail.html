@@ -9,6 +9,12 @@
 <div class="container mt-5">
     <div class="row">
         <div id="post-area">
+            <!-- Post Category -->
+            {% if post.category %}
+            <span class="badge badge-secondary float-right">{{post.category}}</span>
+            {% else %}
+            <span class="badge badge-secondray float-right">미분류</span>
+            {% endif %}
             <!-- Post content-->
             <article>
                 <!-- Post header-->
