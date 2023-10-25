@@ -170,10 +170,12 @@ class TestView(TestCase):
         post_area = main_area.find("div", id="post-area")
         self.assertIn(self.post_001.title, post_area.text)
         self.assertIn(self.category_programming.name, post_area.text)
-        # 2.5 첫 번째 포스트의 작성자(author)가 포스트 영역에 있다. (아직 구현할 수 없음)
-        # 아직 작성 불가
         # 2.6 첫 번째 포스트의 내용(content)이 포스트 영역에 있다.
         self.assertIn(self.post_001.content, post_area.text)
 
         # 2.7 User name check
         self.assertIn(self.user_trump.username.upper(), post_area.text)
+
+        self.assertIn(self.tag_hello.name, post_area.text)
+        self.assertNotIn(self.tag_python.name, post_area.text)
+        self.assertNotIn(self.tag_python_kor.name, post_area.text)
