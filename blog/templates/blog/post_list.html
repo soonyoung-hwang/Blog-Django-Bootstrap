@@ -1,6 +1,13 @@
 {% extends 'blog/base.html' %}
 
 {% block main_area %}
+{% if user.is_authenticated %}
+{% if user.is_superuser or user.is_staff %}
+<a class="btn btn-info btn-sm float-right" href="/blog/create_post/" role="button">
+    <i class="fas fa-pen">&nbsp;&nbsp;New Post</i></a>
+{% endif %}
+{% endif%}
+
 <h1>Blog
     {% if category %}<span class="badge badge-secondary">{{category}}</span>{% endif %}
     {% if tag %}<span class="badge badge-light"><i class="fas fa-tags"></i> {{tag}} ({{tag.post_set.count}})</span>
@@ -13,7 +20,8 @@
 <!-- Featured blog post-->
 <div class="card mb-4" id="post-{{p.pk}}">
     {% if p.head_image %}
-    <a href="#!"><img class="card-img-top" src="{{p.head_image.url}}" alt="..." /></a>
+    <a href="#!" style="text-align: center"><img class="card-img-top" src="{{p.head_image.url}}" alt="..."
+            style="width: 70%;"></a>
     {% else %}
     <a href="#!"><img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/800/500" alt="..." /></a>
     {% endif %}

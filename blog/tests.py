@@ -14,6 +14,8 @@ class TestView(TestCase):
         self.user_obama = User.objects.create_user(
             username="Obama", password="somepassword"
         )
+        self.user_obama.is_staff = True
+        self.user_obama.save()
 
         # create categories
         self.category_programming = Category.objects.create(
@@ -47,6 +49,35 @@ class TestView(TestCase):
         )
         self.post_003.tags.add(self.tag_python)
         self.post_003.tags.add(self.tag_python_kor)
+
+    def test_create_post(self):
+        # if not log in
+        response = self.client.get("/blog/create_post/")
+        self.assertNotEqual(response.status_code, 200)
+
+        # if person who is not a staff login
+        self.client.login(username="Trump", password="somepassword")
+        response = self.client.get("/blog/create_post/")
+        self.assertNotEqual(response.status_code, 200)
+
+        # if staff is login
+        self.client.login(username="Obama", password="somepassword")
+        response = self.client.get("/blog/create_post/")
+        self.assertEqual(response.status_code, 200)
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        self.assertEqual("Create Post - Blog", soup.title.text)
+        main_area = soup.find("div", id="main-area")
+        self.assertIn("Create New Post", main_area.text)
+
+        self.client.post(
+            "/blog/create_post/",
+            {"title": "Post Form 만들기", "content": "Post Form 페이지를 만듭시다."},
+        )
+        self.assertEqual(Post.objects.count(), 4)
+        last_post = Post.objects.last()
+        self.assertEqual(last_post.title, "Post Form 만들기")
+        self.assertEqual(last_post.author.username, "Obama")
 
     def test_tag_page(self):
         response = self.client.get(self.tag_hello.get_absolute_url())
