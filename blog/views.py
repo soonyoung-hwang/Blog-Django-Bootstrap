@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreatView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, Category, Tag
 
 
@@ -24,7 +24,7 @@ class PostDetail(DetailView):
         return context
 
 
-class PostCreate(CreatView):
+class PostCreate(CreateView):
     model = Post
     fields = [
         "title",
