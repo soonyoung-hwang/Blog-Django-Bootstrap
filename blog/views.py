@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Category, Tag
@@ -34,8 +34,15 @@ class PostCreate(LoginRequiredMixin, CreateView):
         "head_image",
         "file_upload",
         "category",
-    ]
-    # author, created_at, tags 는 제외되었습니다.
+    ]  # author, created_at, tags 는 제외되었습니다.
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        if current_user.is_authenticated:
+            form.instance.author = current_user
+            return super(PostCreate, self).form_valid(form)
+        else:
+            return redirect("/blog/")
 
 
 def category_page(request, slug):
