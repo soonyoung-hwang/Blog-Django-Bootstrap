@@ -50,6 +50,13 @@ class TestView(TestCase):
 
     def test_create_post(self):
         response = self.client.get("/blog/create_post/")
+        # if not log in
+        self.assertNotEqual(response.status_code, 200)
+
+        # login
+        self.client.login(username="Trump", password="somepassword")
+
+        response = self.client.get("/blog/create_post/")
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
 
