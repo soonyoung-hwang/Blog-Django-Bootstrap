@@ -20,7 +20,8 @@
 <!-- Featured blog post-->
 <div class="card mb-4" id="post-{{p.pk}}">
     {% if p.head_image %}
-    <a href="#!"><img class="card-img-top" src="{{p.head_image.url}}" alt="..." /></a>
+    <a href="#!" style="text-align: center"><img class="card-img-top" src="{{p.head_image.url}}" alt="..."
+            style="width: 70%;"></a>
     {% else %}
     <a href="#!"><img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/800/500" alt="..." /></a>
     {% endif %}
