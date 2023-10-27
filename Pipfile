@@ -12,6 +12,7 @@ django-extensions = "*"
 ipython = "*"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
+django-markdownx = "*"
 
 [dev-packages]
 
