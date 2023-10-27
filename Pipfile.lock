@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b848afe711dc7eb5d584eea16891da924b28efdf2b252079eb21c2d1ee93002b"
+            "sha256": "84145bc414c3e7c42cb89632ddb956b10b17a9864806cd6fb9f53a6ef85b751f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -99,6 +99,14 @@
             "markers": "python_version >= '3.6'",
             "version": "==3.2.3"
         },
+        "django-markdownx": {
+            "hashes": [
+                "sha256:31cf644e38720439eb48978ea4cef8d942067408019ea8b2db802233a6377455",
+                "sha256:b6007790363743aad06c70a2fa49158b4149a6226f52213b3ed3f40d790cb4d3"
+            ],
+            "index": "pypi",
+            "version": "==4.0.5"
+        },
         "executing": {
             "hashes": [
                 "sha256:06df6183df67389625f4e763921c6cf978944721abf3e714000200aab95b0657",
@@ -131,6 +139,14 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==0.19.1"
+        },
+        "markdown": {
+            "hashes": [
+                "sha256:4afb124395ce5fc34e6d9886dab977fd9ae987fc6e85689f08278cf0c69d4bf3",
+                "sha256:a807eb2e4778d9156c8f07876c6e4d50b5494c5665c4834f67b06459dfd877b3"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==3.5"
         },
         "matplotlib-inline": {
             "hashes": [
