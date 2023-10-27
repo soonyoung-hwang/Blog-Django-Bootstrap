@@ -11,6 +11,7 @@ install = "*"
 django-extensions = "*"
 ipython = "*"
 django-crispy-forms = "*"
+crispy-bootstrap4 = "*"
 
 [dev-packages]
 
