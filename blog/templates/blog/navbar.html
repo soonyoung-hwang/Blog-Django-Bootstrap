@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">Do It Django</a>
@@ -52,9 +53,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-outline-dark btn-block btn-sm"><i
-                                class="fa-brands fa-google"></i>&nbsp&nbsp Log in with
-                            Google</button>
+                        <a role="button" class="btn btn-outline-dark btn-block btn-sm"
+                            href="{% provider_login_url 'google' %}">
+                            <i class="fa-brands fa-google">
+                            </i>&nbsp&nbsp Log in
+                            with Google</a>
                         <button type="button" class="btn btn-outline-dark btn-block btn-sm"><i
                                 class="fa-regular fa-envelope"></i>&nbsp&nbsp Log in with
                             E-mail</button>
