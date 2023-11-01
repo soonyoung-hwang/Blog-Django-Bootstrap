@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 
 
 class TestView(TestCase):
@@ -49,6 +49,10 @@ class TestView(TestCase):
         )
         self.post_003.tags.add(self.tag_python)
         self.post_003.tags.add(self.tag_python_kor)
+
+        self.comment_001 = Comment.objects.create(
+            post=self.post_001, author=self.user_obama, content="첫 번째 댓글 입니다."
+        )
 
     def test_create_post(self):
         # if not log in
@@ -255,35 +259,32 @@ class TestView(TestCase):
         self.assertIn("아직 게시물이 없습니다", main_area.text)
 
     def test_post_detail(self):
-        # 1.1 포스트가 하나 있다.
-
-        # 1.2 그 포스트의 url은 '/blog/1' 이다.
+        # url check
         self.assertEqual(self.post_001.get_absolute_url(), "/blog/1/")
 
-        # 2.첫 번째 포스트의 상세 페이지 테스트
-        # 2.1 첫 번째 포스트의 url로 접근하면 정상적으로 작동한다.
+        # url link check
         response = self.client.get(self.post_001.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
-        # 2.2 navbar 테스트
+
+        # check navbar, category card
         self.navbar_test(soup)
-        # 2.3-2 카테고리 테스트
         self.category_card_test(soup)
 
-        # 2.3 첫 번째 포스트의 제목이 웹 브라우저 탭 타이틀에 들어있다.
+        # post check (category, tag)
         self.assertIn(self.post_001.title, soup.title.text)
-
-        # 2.4 첫 번째 포스트의 제목이 포스트 영역에 있다.
         main_area = soup.find("div", id="main-area")
         post_area = main_area.find("div", id="post-area")
         self.assertIn(self.post_001.title, post_area.text)
         self.assertIn(self.category_programming.name, post_area.text)
-        # 2.6 첫 번째 포스트의 내용(content)이 포스트 영역에 있다.
         self.assertIn(self.post_001.content, post_area.text)
-
-        # 2.7 User name check
         self.assertIn(self.user_trump.username.upper(), post_area.text)
-
         self.assertIn(self.tag_hello.name, post_area.text)
         self.assertNotIn(self.tag_python.name, post_area.text)
         self.assertNotIn(self.tag_python_kor.name, post_area.text)
+
+        # comment check
+        comments_area = soup.find("div", id="comment-area")
+        comment_001_area = comments_area.find("div", id="comment-1")
+        self.assertIn(self.comment_001.author.username, comment_001_area.text)
+        self.assertIn(self.comment_001.content, comment_001_area.text)
