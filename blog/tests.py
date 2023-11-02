@@ -327,12 +327,12 @@ class TestView(TestCase):
 
         new_comment = Comment.objects.last()
 
-        Soup = BeautifulSoup(response.content, "html.parser")
+        soup = BeautifulSoup(response.content, "html.parser")
 
         # 이 부분이 어떤 것을 말하려는지 이해가 안된다.
         self.assertIn(new_comment.post.title, soup.title.text)
 
         comment_area = soup.find("div", id="comment-area")
         new_comment_div = comment_area.find("div", id=f"comment-{new_comment.pk}")
-        self.assertIn("obama", new_comment_div.text)
+        self.assertIn("Obama", new_comment_div.text)
         self.assertIn("오바마의 댓글 입니다.", new_comment_div.text)
