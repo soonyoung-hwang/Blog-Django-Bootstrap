@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from .models import Post, Category, Tag, Comment
+import time
 
 
 class TestView(TestCase):
@@ -343,7 +344,7 @@ class TestView(TestCase):
         )
 
         response = self.client.get(self.post_001.get_absolute_url())
-        self.assertEqual(reponse.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
 
         ### button check ###
@@ -353,12 +354,13 @@ class TestView(TestCase):
         self.assertFalse(comment_area.find("a", id="comment-2-update-btn"))
 
         # with login
-        self.client.login(username="obama", password="somepasword")
-        reponse = self.client.get(self.post_001.get_absolute_url())
+        self.client.login(username="Obama", password="somepassword")
+        response = self.client.get(self.post_001.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
 
         comment_area = soup.find("div", id="comment-area")
+        comment_area.find("a", id="comment-1-update-btn")
         self.assertFalse(comment_area.find("a", id="comment-2-update-btn"))
         comment_001_update_btn = comment_area.find("a", id="comment-1-update-btn")
 
@@ -376,7 +378,7 @@ class TestView(TestCase):
         update_comment_form = soup.find("form", id="comment-form")
         content_text_area = update_comment_form.find("textarea", id="id_content")
         self.assertIn(self.comment_001.content, content_text_area.text)
-
+        time.sleep(1)
         response = self.client.post(
             f"/blog/update_comment/{self.comment_001.pk}/",
             {
