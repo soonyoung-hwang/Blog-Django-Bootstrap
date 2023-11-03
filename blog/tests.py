@@ -428,6 +428,8 @@ class TestView(TestCase):
         )
 
         delete_comment_modal_002 = soup.find("div", id="deleteCommentModal-2")
+        self.assertIn("Are You Sure?", delete_comment_modal_002.text)
+        really_delete_btn_002 = delete_comment_modal_002.find("a")
         self.assertIn("Delete", really_delete_btn_002.text)
         self.assertEqual(really_delete_btn_002.attrs["href"], "/blog/delete_comment/2/")
 
