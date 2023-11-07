@@ -1,21 +1,67 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
-    <title>개발자 히라입니다!</title>
+    <title>About 히라</title>
+    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'single_pages/css/about_me.css' %}" media="screen">
+    <script src="https://kit.fontawesome.com/6f60219b70.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <nav>
-        <a href="/blog/">Blog</a>
-        <a href="/about_me/">About me</a>
-    </nav>
+    {% include 'blog/navbar.html' %}
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1>안녕하세요. 히라입니다.</h1>
+                    <br />
+                    <p class="lead">
+                        배드민턴과 롤을 좋아합니다.<br />
+                        백엔드 인턴을 하면서 흥미가 생겨서 프론트엔드의 기초를 배우고 싶어서 이 책을 공부하고 있습니다.
+                    </p>
+                    <ul>
+                        <li>WORK EXPERIENCE</li>
+                        <ul>
+                            <li>카카오브레인 - 백엔드 (2023.06-2023.08)</li>
+                        </ul>
+                        <li>EDUCATION</li>
+                        <ul>
+                            <li>boostcamp AI Tech 네이버커넥트 (2022.09-2023.02)</li>
+                            <li>(Incomplete)Emory University, Master of Science in Computer Science (2019.09-2021.12)
+                            </li>
+                            <li>Inha University, Bachelor of Communication and Engineering (2010.03-2017.02)</li>
+                        </ul>
+                        <li>AWARDS</li>
+                        <ul>
+                            <li>합성데이터 기반 객체 탐지 AI 경진대회, 7/855 (2023.05-2023.06)</li>
+                            <li>월간 데이콘 항공편 지연 예측 AI 경진대회, 1/499 (2023.03-2023.05)</li>
+                        </ul>
 
-    <h1>안녕하세요. 히라입니다.</h1>
-    <h2>이력</h2>
-    <h2>Portfolio</h2>
-    <h3>금방 만들겠습니다...ㅠ</h3>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <img class="img-fluid" src="{% static 'single_pages/images/my_front.jpeg' %}">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light margin-for-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1> Portfolio (예정)</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="fixed-bottom">
+        {% include 'blog/footer.html' %}
+    </div>
 </body>
 
 </html>
