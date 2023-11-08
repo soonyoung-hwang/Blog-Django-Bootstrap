@@ -7,3 +7,6 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ("content",)
         # or exclude = ('post', 'author', 'created_at', 'modified_at', )
+        widgets = {
+            "content": forms.Textarea(attrs={"rows": 4}),
+        }
