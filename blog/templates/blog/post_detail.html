@@ -13,7 +13,7 @@
             {% if post.category %}
             <span class="badge badge-secondary float-right">{{post.category}}</span>
             {% else %}
-            <span class="badge badge-secondray float-right">미분류</span>
+            <span class="badge badge-secondary float-right">미분류</span>
             {% endif %}
             <!-- Post content-->
             <article>
@@ -121,14 +121,14 @@
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="deleteCommentModal-{{comment.pk}}" tabindex="-1"
-                                    role="dialog" area-labelledby="deleteCommentModalLabel" area-hidden="true">
+                                    role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
-                                                    area-label="Close">
-                                                    <span area-hidden="true">&times;</span>
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
