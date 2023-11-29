@@ -61,6 +61,8 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
                 for t in tags_list:
                     t = t.strip()
+                    if not t:
+                        continue
                     tag, is_tag_created = Tag.objects.get_or_create(name=t)
                     if is_tag_created:
                         tag.slug = slugify(t, allow_unicode=True)
@@ -110,9 +112,10 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
             tags_str = tags_str.strip()
             tags_str = tags_str.replace(",", ";")
             tags_list = tags_str.split(";")
-
             for t in tags_list:
                 t = t.strip()
+                if not t:
+                    continue
                 tag, is_tag_created = Tag.objects.get_or_create(name=t)
                 if is_tag_created:
                     tag.slug = slugify(t, allow_unicode=True)
