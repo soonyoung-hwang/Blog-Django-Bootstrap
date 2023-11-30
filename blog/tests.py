@@ -224,7 +224,7 @@ class TestView(TestCase):
         main_area = soup.find("div", id="main-area")
         self.assertNotIn("아직 게시물이 없습니다", main_area.text)
 
-        post_001_card = main_area.find("div", id="post-1")
+        post_001_card = main_area.find("div", id=f"post-{self.post_001.pk}")
         self.assertIn(self.post_001.title, post_001_card.text)
         self.assertIn(self.post_001.category.name, post_001_card.text)
         self.assertIn(self.post_001.author.username.upper(), post_001_card.text)
@@ -232,7 +232,7 @@ class TestView(TestCase):
         self.assertNotIn(self.tag_python.name, post_001_card.text)
         self.assertNotIn(self.tag_python_kor.name, post_001_card.text)
 
-        post_002_card = main_area.find("div", id="post-2")
+        post_002_card = main_area.find("div", id=f"post-{self.post_002.pk}")
         self.assertIn(self.post_002.title, post_002_card.text)
         self.assertIn(self.post_002.category.name, post_002_card.text)
         self.assertIn(self.post_002.author.username.upper(), post_002_card.text)
@@ -240,7 +240,7 @@ class TestView(TestCase):
         self.assertNotIn(self.tag_python.name, post_002_card.text)
         self.assertNotIn(self.tag_python_kor.name, post_002_card.text)
 
-        post_003_card = main_area.find("div", id="post-3")
+        post_003_card = main_area.find("div", id=f"post-{self.post_003.pk}")
         self.assertIn(self.post_003.title, post_003_card.text)
         self.assertIn("미분류", post_003_card.text)
         self.assertIn(self.post_003.author.username.upper(), post_003_card.text)
@@ -261,7 +261,7 @@ class TestView(TestCase):
 
     def test_post_detail(self):
         # url check
-        self.assertEqual(self.post_001.get_absolute_url(), "/blog/1/")
+        self.assertEqual(self.post_001.get_absolute_url(), f"/blog/{self.post_001.pk}/")
 
         # url link check
         response = self.client.get(self.post_001.get_absolute_url())
@@ -286,7 +286,7 @@ class TestView(TestCase):
 
         # comment check
         comments_area = soup.find("div", id="comment-area")
-        comment_001_area = comments_area.find("div", id="comment-1")
+        comment_001_area = comments_area.find("div", id=f"comment-{self.comment_001.pk}")
         self.assertIn(self.comment_001.author.username, comment_001_area.text)
         self.assertIn(self.comment_001.content, comment_001_area.text)
 
@@ -347,11 +347,19 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
 
+        # comments list
+        # 1. self.comment_001
+        # 2. comment_by_trump
+
         ### button check ###
         # without login
         comment_area = soup.find("div", id="comment-area")
-        self.assertFalse(comment_area.find("a", id="comment-1-update-btn"))
-        self.assertFalse(comment_area.find("a", id="comment-2-update-btn"))
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{self.comment_001.pk}-update-btn")
+        )
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{comment_by_trump.pk}-update-btn")
+        )
 
         # with login
         self.client.login(username="Obama", password="somepassword")
@@ -360,17 +368,22 @@ class TestView(TestCase):
         soup = BeautifulSoup(response.content, "html.parser")
 
         comment_area = soup.find("div", id="comment-area")
-        comment_area.find("a", id="comment-1-update-btn")
-        self.assertFalse(comment_area.find("a", id="comment-2-update-btn"))
-        comment_001_update_btn = comment_area.find("a", id="comment-1-update-btn")
+        comment_area.find("a", id=f"comment-{self.comment_001.pk}-update-btn")
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{comment_by_trump.pk}-update-btn")
+        )
+        comment_001_update_btn = comment_area.find(
+            "a", id=f"comment-{self.comment_001.pk}-update-btn"
+        )
 
         ### button function check ###
         self.assertIn("edit", comment_001_update_btn.text)
         self.assertEqual(
-            comment_001_update_btn.attrs["href"], "/blog/update_comment/1/"
+            comment_001_update_btn.attrs["href"],
+            f"/blog/update_comment/{self.comment_001.pk}/",
         )
 
-        response = self.client.get("/blog/update_comment/1/")
+        response = self.client.get(f"/blog/update_comment/{self.comment_001.pk}/")
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -389,7 +402,7 @@ class TestView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
-        comment_001_div = soup.find("div", id="comment-1")
+        comment_001_div = soup.find("div", id=f"comment-{self.comment_001.pk}")
         self.assertIn("오바마의 댓글을 수정합니다.", comment_001_div.text)
         self.assertIn("updated :", comment_001_div.text)
 
@@ -408,8 +421,12 @@ class TestView(TestCase):
         soup = BeautifulSoup(response.content, "html.parser")
 
         comment_area = soup.find("div", id="comment-area")
-        self.assertFalse(comment_area.find("a", id="comment-1-delete-btn"))
-        self.assertFalse(comment_area.find("a", id="comment-2-delete-btn"))
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{self.comment_001.pk}-delete-btn")
+        )
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{comment_by_trump.pk}-delete-btn")
+        )
 
         # with login
         self.client.login(username="Trump", password="somepassword")
@@ -418,22 +435,32 @@ class TestView(TestCase):
         soup = BeautifulSoup(response.content, "html.parser")
 
         comment_area = soup.find("div", id="comment-area")
-        self.assertFalse(comment_area.find("a", id="comment-1-delete-btn"))
+        self.assertFalse(
+            comment_area.find("a", id=f"comment-{self.comment_001.pk}-delete-btn")
+        )
         comment_002_delete_modal_btn = comment_area.find(
-            "a", id="comment-2-delete-modal-btn"
+            "a", id=f"comment-{comment_by_trump.pk}-delete-modal-btn"
         )
         self.assertIn("delete", comment_002_delete_modal_btn.text)
         self.assertEqual(
-            comment_002_delete_modal_btn.attrs["data-target"], "#deleteCommentModal-2"
+            comment_002_delete_modal_btn.attrs["data-target"],
+            f"#deleteCommentModal-{comment_by_trump.pk}",
         )
 
-        delete_comment_modal_002 = soup.find("div", id="deleteCommentModal-2")
+        delete_comment_modal_002 = soup.find(
+            "div", id=f"deleteCommentModal-{comment_by_trump.pk}"
+        )
         self.assertIn("Are You Sure?", delete_comment_modal_002.text)
         really_delete_btn_002 = delete_comment_modal_002.find("a")
         self.assertIn("Delete", really_delete_btn_002.text)
-        self.assertEqual(really_delete_btn_002.attrs["href"], "/blog/delete_comment/2/")
+        self.assertEqual(
+            really_delete_btn_002.attrs["href"],
+            f"/blog/delete_comment/{comment_by_trump.pk}/",
+        )
 
-        response = self.client.get("/blog/delete_comment/2/", follow=True)
+        response = self.client.get(
+            f"/blog/delete_comment/{comment_by_trump.pk}/", follow=True
+        )
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertIn(self.post_001.title, soup.title.text)
