@@ -13,7 +13,8 @@ services:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
 
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443"
     depends_on:
       - web
 
