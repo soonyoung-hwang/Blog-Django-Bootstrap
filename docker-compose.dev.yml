@@ -2,6 +2,7 @@ version: '3'
 
 services:
   nginx:
+    container_name: nginx
     build: ./nginx
     volumes:
       - static_volume:/usr/src/app/_static
@@ -16,6 +17,7 @@ services:
       - web
 
   web:
+    container_name: web-server
     build: .
     command: >
       sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn do_it_django_prj.wsgi:application --bind 0.0.0.0:8000"
@@ -31,6 +33,7 @@ services:
       - db
 
   db:
+    container_name: database
     image: postgres:12.0-alpine
     volumes:
       - dev_postgres_data:/var/lib/postgresql/data/
