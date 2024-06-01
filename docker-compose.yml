@@ -9,8 +9,8 @@ services:
       - media_volume:/usr/src/app/_media
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - ${DOCKER_COMPOSE_ROOT}/nginx/sites.conf:/etc/nginx/conf.d/sites.conf
-      - ${DOCKER_COMPOSE_ROOT}/nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./nginx/sites.conf:/etc/nginx/conf.d/sites.conf
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
 
     ports:
       - 80:80
